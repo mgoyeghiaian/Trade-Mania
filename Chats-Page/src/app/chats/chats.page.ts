@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatchService } from '../services/match.services';
 import { ChatService, ChatMessage } from '../services/chat.services';
 
@@ -9,7 +9,6 @@ import { ChatService, ChatMessage } from '../services/chat.services';
 })
 export class ChatsPage implements OnInit {
   matches: any[] = [];
-
   messages: ChatMessage[] = [];
   incomingMessagesCount = 0;
   matchesCount = 0;
@@ -18,17 +17,20 @@ export class ChatsPage implements OnInit {
 
   constructor(
     private matchService: MatchService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.loadMatches();
     this.loadMessages();
+    this.subscribeToRealTimeUpdates();
   }
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
   }
+
   private loadMatches(): void {
     this.matchService.getMatches().subscribe(
       data => {
@@ -51,6 +53,14 @@ export class ChatsPage implements OnInit {
       },
       error => console.error('Failed to fetch messages', error)
     );
+  }
+
+  private subscribeToRealTimeUpdates(): void {
+    this.matchService.matches.subscribe(updatedMatches => {
+      this.matches = this.fillPlaceholders(updatedMatches);
+      this.updateMatchCount();
+      this.cdr.detectChanges();  
+    });
   }
 
   private fillPlaceholders(data: any[]): any[] {
