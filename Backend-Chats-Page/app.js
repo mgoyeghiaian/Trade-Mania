@@ -1,16 +1,19 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config(); // Config environment variables at the start
+require('dotenv').config();
 const matchedUserRoutes = require('./Routes/MatchedUser');
+const ChatRoutes = require('./Routes/ChatRoutes');
+
 const connectDB = require('./config/db');
 
-const app = express(); 
+const app = express();
 
-app.use(cors()); 
-app.use(express.json()); 
+app.use(cors());
+app.use(express.json());
 
-connectDB(); 
+connectDB();
 
-app.use('/matches', matchedUserRoutes); 
+app.use('/matches', matchedUserRoutes);
+app.use('/chat', ChatRoutes);
 
 module.exports = app; 
