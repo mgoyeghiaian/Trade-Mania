@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <ion-content>
   <div class="MainBody">
     <div class="navbar">
@@ -32,7 +33,6 @@
         <div class="online-indicator"></div>
       </div>
 
-      <!-- Map matches -->
       <div *ngFor="let match of matches" class="match-item">
         <div class="match-avatar">
           <img
@@ -46,5 +46,84 @@
         <h2 class="match-name">{{ match.name || '&nbsp;' }}</h2>
       </div>
     </div>
+
+    <div class="chat-section">
+      <div>
+        <h1 class="messages-head">
+          Messages
+          <span class="messages-count">{{ incomingMessagesCount }}</span>
+        </h1>
+      </div>
+      <div *ngFor="let message of messages" class="message-item">
+        <div class="left-message">
+          <div class="chat-image-container">
+            <img
+              [src]="message.iconImage"
+              class="contact-image"
+              (error)="onImageError($event)"
+            />
+            <div class="online-indicator" *ngIf="message.isOnline"></div>
+          </div>
+          <div class="name-message">
+            <span class="contact-name">{{ message.contactName }}</span>
+            <div class="message-preview">
+              <span *ngIf="!message.isIncoming" class="message-arrow">
+                <ion-icon name="arrow-undo-sharp"></ion-icon>
+              </span>
+              <span class="message-text">{{ message.text }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="message-right">
+          <span class="message-time"
+            >{{ message.time | date:'shortTime' }}</span
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="4"
+          class="footer-col"
+          (click)="setActiveTab('settings')"
+          [class.active]="activeTab === 'settings'"
+        >
+          <div class="icon-container">
+            <ion-icon name="settings-outline" class="footer-icon"></ion-icon>
+            <span class="icon-label">Settings</span>
+          </div>
+        </ion-col>
+        <ion-col
+          size="4"
+          class="footer-col"
+          (click)="setActiveTab('explore')"
+          [class.active]="activeTab === 'explore'"
+        >
+          <div class="icon-container">
+            <ion-icon name="copy-outline" class="footer-icon"></ion-icon>
+            <span class="icon-label">Explore</span>
+          </div>
+        </ion-col>
+        <ion-col
+          size="4"
+          class="footer-col"
+          (click)="setActiveTab('chats')"
+          [class.active]="activeTab === 'chats'"
+        >
+          <div class="icon-container">
+            <ion-icon
+              name="chatbox-ellipses-outline"
+              class="footer-icon"
+            ></ion-icon>
+            <span class="icon-label">Chats</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

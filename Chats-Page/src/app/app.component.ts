@@ -5,6 +5,11 @@ import { Component } from '@angular/core';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
+
 export class AppComponent {
-  constructor() {}
+  activeTab: string = 'chats';
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
 }

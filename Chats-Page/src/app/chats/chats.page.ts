@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatchService } from '../services/match.services';
+import { ChatService, ChatMessage } from '../services/chat.services';
 
 @Component({
   selector: 'app-chats-page',
@@ -8,27 +9,47 @@ import { MatchService } from '../services/match.services';
 })
 export class ChatsPage implements OnInit {
   matches: any[] = [];
-  likes: any[] = [
-    { name: 'Like1', image: 'assets/person1.jpg' },
-    { name: 'Like2', image: 'assets/person2.jpg' }
-  ];
-  readonly placeholdersCount = 6;
+
+  messages: ChatMessage[] = [];
+  incomingMessagesCount = 0;
   matchesCount = 0;
+  readonly placeholdersCount = 5;
+  activeTab: string = 'chats';
 
-
-  constructor(private matchService: MatchService) {}
+  constructor(
+    private matchService: MatchService,
+    private chatService: ChatService
+  ) {}
 
   ngOnInit() {
+    this.loadMatches();
+    this.loadMessages();
+  }
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
+  private loadMatches(): void {
     this.matchService.getMatches().subscribe(
-      (data) => {
+      data => {
         this.matches = this.fillPlaceholders(data);
         this.updateMatchCount();
       },
-      (error) => {
+      error => {
         console.error('Failed to fetch matches', error);
         this.matches = this.createPlaceholders();
         this.updateMatchCount();
       }
+    );
+  }
+
+  private loadMessages(): void {
+    this.chatService.getMessages().subscribe(
+      data => {
+        this.messages = data;
+        this.incomingMessagesCount = data.filter(m => m.isIncoming).length;
+      },
+      error => console.error('Failed to fetch messages', error)
     );
   }
 
@@ -57,6 +78,6 @@ export class ChatsPage implements OnInit {
   }
 
   onImageError(event: any): void {
-    event.target.src = 'assets/NoAvatar.jpeg'; 
+    event.target.src = 'assets/NoAvatar.jpeg';
   }
 }
