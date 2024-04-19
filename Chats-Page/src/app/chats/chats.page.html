@@ -1,0 +1,50 @@
+<ion-content>
+  <div class="MainBody">
+    <div class="navbar">
+      <ion-buttons slot="start">
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <h1 class="header-text">
+        Matches<span class="matches-count">{{ matchesCount }}</span>
+      </h1>
+      <ion-buttons slot="end">
+        <ion-button>
+          <ion-icon slot="icon-only" name="search"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+    <div class="matches-list">
+      <!-- Likes Container -->
+      <div class="likes-container">
+        <div class="like-item">
+          <ion-icon name="heart" class="heart-icon"></ion-icon>
+          <img src="assets/like1.jpg" class="like-image" />
+        </div>
+        <h2 class="like-text">Likes</h2>
+      </div>
+
+      <!-- Display rounds even if no matches -->
+      <div *ngIf="matches.length === 0" class="match-item">
+        <div class="match-avatar"></div>
+        <h2 class="match-name"></h2>
+        <div class="online-indicator"></div>
+      </div>
+
+      <!-- Map matches -->
+      <div *ngFor="let match of matches" class="match-item">
+        <div class="match-avatar">
+          <img
+            [src]="match.profilePicture || 'assets/placeholder.jpg'"
+            (error)="onImageError($event)"
+            class="match-image"
+          />
+
+          <div class="online-indicator" *ngIf="match.isOnline"></div>
+        </div>
+        <h2 class="match-name">{{ match.name || '&nbsp;' }}</h2>
+      </div>
+    </div>
+  </div>
+</ion-content>

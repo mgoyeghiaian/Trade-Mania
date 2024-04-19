@@ -1,0 +1,123 @@
+.MainBody {
+  background-color: #f1f0f0;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px;
+  margin: 1%;
+  color: black;
+  padding: 1%;
+  border: 1px solid rgba(0, 0, 0, 0.158);
+}
+
+.header-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  color: #FFC629;
+}
+
+.matches-count {
+  background-color: #ffc629;
+  color: black;
+  font-size: 0.7em;
+  border-radius: 100%;
+  padding: 2px 8px;
+}
+
+.matches-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-left: 3%;
+  gap: 10px;
+}
+
+.likes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.like-image {
+  width: 66px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: blur(2px);
+}
+
+.like-item {
+  position: relative;
+  width: 66px;
+}
+
+.heart-icon {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  color: red;
+  font-size: 25px;
+  z-index: 6;
+}
+
+.like-text,
+.match-name {
+  font-size: 1em;
+  font-weight: bold;
+  color: #ffc629;
+}
+
+.match-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.match-avatar {
+  overflow: hidden;
+  object-fit: fill;
+  position: relative;
+
+
+}
+
+.match-avatar img {
+  width: 66px;
+  height: 66px;
+  border-radius: 100%;
+  overflow: hidden;
+border: 2px solid #979797;
+  position: relative;
+}
+
+.matches-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+.online-indicator {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #FFFF;
+  background-color: rgb(8, 175, 8);
+  border-radius: 50%;
+}
