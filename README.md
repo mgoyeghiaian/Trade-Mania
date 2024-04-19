@@ -11,7 +11,6 @@ This repository contains all the development related to the chats listing page. 
 - **Technologies used**: Ionic/Angular
 - **Key features**: List styling, responsive design
 
-[View Chats Page Repository](#)
 
 ### 2. Conversation Page
 
@@ -20,7 +19,6 @@ This repository focuses on the conversation interface, where users can engage in
 - **Technologies used**: Ionic/Angular, WebSockets for real-time communication
 - **Key features**: Real-time messaging, conversation management
 
-[View Conversation Page Repository](#)
 
 ## Feedback
 
