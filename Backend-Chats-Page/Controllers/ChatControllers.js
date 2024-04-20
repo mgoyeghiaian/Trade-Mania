@@ -24,7 +24,7 @@ exports.createMessage = async (req, res) => {
   try {
     const newMessage = await message.save();
     const io = getIo();
-    io.emit('message-created', newMessage); 
+    io.emit('message-created', newMessage);
     res.status(201).json(newMessage);
   } catch (error) {
     console.error(error);
@@ -34,14 +34,15 @@ exports.createMessage = async (req, res) => {
 
 exports.updateMessage = async (req, res) => {
   try {
+    const io = getIo();
+
     const updatedMessage = await Message.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      { $set: { ...req.body, time: new Date() } },
       { new: true }
     );
-    const io = getIo();
-    io.emit('message-updated', updatedMessage); 
-    res.status(200).json(updatedMessage);
+    io.emit('message-updated', updatedMessage);
+    res.json(updatedMessage);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message });
@@ -52,7 +53,7 @@ exports.deleteMessage = async (req, res) => {
   try {
     await Message.findByIdAndDelete(req.params.id);
     const io = getIo();
-    io.emit('message-deleted', { id: req.params.id }); 
+    io.emit('message-deleted', { id: req.params.id });
     res.status(204).send();
   } catch (error) {
     console.error(error);

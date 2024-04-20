@@ -48,7 +48,7 @@ export class MatchService {
 
     this.socket.on('online-status-changed', (statusUpdate: { userId: string, isOnline: boolean }) => {
       console.log("Online status event received:", statusUpdate);
-      this.zone.run(() => {  
+      this.zone.run(() => {
         this.updateOnlineStatus(statusUpdate);
       });
     });

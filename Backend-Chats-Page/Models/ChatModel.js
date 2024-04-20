@@ -1,30 +1,12 @@
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
-  text: {
-    type: String,
-    required: true
-  },
-  isIncoming: {
-    type: Boolean,
-    required: true
-  },
-  isOnline: {
-    type: Boolean,
-    required: true
-  },
-  time: {
-    type: Date,
-    default: Date.now
-  },
-  contactName: {
-    type: String,
-    required: true
-  },
-  iconImage: {
-    type: String,
-    required: true
-  }
-});
+  text: String,
+  isIncoming: Boolean,
+  isOnline: Boolean,
+  time: { type: Date, default: Date.now }, 
+  contactName: String,
+  iconImage: String
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }); 
 
 module.exports = mongoose.model('Message', messageSchema);

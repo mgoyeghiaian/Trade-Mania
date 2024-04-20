@@ -6,11 +6,11 @@ exports.addMatchedUser = async (req, res) => {
   try {
     const newUser = new MatchedUser(req.body);
     await newUser.save();
-    const io = getIo();  // Get the io instance
+    const io = getIo();  
     io.emit('new-match', newUser);
     res.status(201).json(newUser);
   } catch (error) {
-    console.error(error);  // It's good to log the error to the console for debugging
+    console.error(error);  
     res.status(400).json({ message: error.message });
   }
 };
