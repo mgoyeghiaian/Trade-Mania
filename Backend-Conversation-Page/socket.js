@@ -1,20 +1,31 @@
 const socketIo = require('socket.io');
-let io;
+const Conversation = require('./Models/Conversation');
 
-function initIo(server) {
-    io = socketIo(server, {
-        cors: {
-            origin: "*",
-            methods: ["GET", "POST"]
-        }
+module.exports = (server) => {
+  const io = socketIo(server);
+
+  io.on('connection', (socket) => {
+    console.log('New client connected');
+
+    socket.on('new conversation', async ({ sender, receiver, content, contentType }) => {
+      try {
+       
+        const conversation = new Conversation({ sender, receiver, content, contentType });
+        await conversation.save();
+
+        io.to(receiver).emit('conversation', conversation);
+      } catch (error) {
+        console.error('Error saving conversation:', error);
+      }
     });
-}
 
-function getIo() {
-    if (!io) {
-        throw new Error("Socket.io not initialized");
-    }
-    return io;
-}
+    
+    socket.on('join', (username) => {
+      socket.join(username); 
+    });
 
-module.exports = { initIo, getIo };
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+    });
+  });
+};

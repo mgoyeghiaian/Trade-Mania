@@ -1,28 +1,18 @@
+// models/Conversation.js
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const conversationSchema = new Schema({
-  room: {
+const ConversationSchema = new mongoose.Schema({
+  sender: String,
+  receiver: String,
+  content: String,
+  contentType: {
     type: String,
-    required: true
+    enum: ['text', 'image'],
+    default: 'text'
   },
-  messages: [{
-    _id: Schema.Types.ObjectId,
-    sender: {
-      type: String,
-      required: true
-    },
-    content: {
-      type: String,
-      required: true
-    },
-    timestamp: {
-      type: Date,
-      default: Date.now
-    }
-  }]
+  timestamp: { type: Date, default: Date.now }
 });
 
-const Conversation = mongoose.model('Conversation', conversationSchema);
+const Conversation = mongoose.model('Conversation', ConversationSchema);
 
 module.exports = Conversation;
