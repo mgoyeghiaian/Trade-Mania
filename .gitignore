@@ -1,5 +1,5 @@
-node_modules
+node_modules/
 .env
-.history
-Backend-Chats-Page
-Chats-Page
+.history/
+Backend-Chats-Page/
+Chats-Page/
