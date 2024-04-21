@@ -1,0 +1,113 @@
+
+
+.MainBody {
+  background-color: #f1f0f0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Navbar {
+  color: black;
+  display: flex;
+  flex-direction: row;
+  padding: 2%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-section {
+  flex-grow: 1;
+  margin: 1% 1% 60px 1%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100vh;
+  padding: 10% 2% 5% 2%;
+  background-color: #FFF;
+  border-radius: 33px 33px 0 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.message-sent,
+.message-received {
+  display: flex;
+  margin: 0.5rem 0;
+  gap: 5px;
+align-items: center;
+color: #000000d7;
+font-weight:600;
+}
+
+.message-bubble {
+  padding: 10px 15px;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.message-sent .message-bubble {
+  border: 1px solid #0000008c;
+  border-radius: 15px 0 15px 15px;
+}
+
+.message-received .message-bubble {
+  background-color: #07aa0ca1;
+  border: 1px solid #07aa0d;
+  border-radius: 0 15px 15px 15px;
+
+}
+
+.message-sent{
+  flex-direction: row-reverse;
+}
+
+.message-text {
+  word-wrap: break-word;
+}
+
+.message-timestamp{
+  font-size: 0.7rem;
+  align-self: flex-end;
+  color: #4e4d4dce;
+}
+
+.input-section {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #ccc;
+}
+
+ion-textarea {
+  flex-grow: 1;
+  border-radius: 20px;
+  background-color: #f1f0f0;
+  padding: 0.5rem;
+  color: black;
+  --placeholder-color: #888;
+}
+
+ion-button {
+  --background: #4CAF50;
+  --border-radius: 10px;
+  margin-left: 0.5rem;
+  color: white;
+}
+ion-content {
+  --keyboard-offset: 0px !important;
+}
+.recording-indicator {
+  color: red;
+  font-size: 16px;
+  margin-left: 10px;
+}

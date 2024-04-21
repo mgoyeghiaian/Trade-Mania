@@ -1,0 +1,7 @@
+{
+  "name": "ConversationApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
