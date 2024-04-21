@@ -1,12 +1,32 @@
-const app = require('./app');
+const express = require('express');
+const cors = require('cors');
 const http = require('http');
+const connectDB = require('./config/db');
 const socketHandler = require('./socket');
+require('dotenv').config();
 
-const server = http.createServer(app);
+const app = express();
+const port = process.env.PORT || 8080;
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+connectDB();
+
+
+app.use(cors({
+    origin: 'http://localhost:8100',
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+    res.send('Server is running');
 });
 
+const server = http.createServer(app);
 socketHandler(server);
+
+server.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});

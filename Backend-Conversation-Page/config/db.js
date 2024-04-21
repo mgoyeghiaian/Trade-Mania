@@ -11,3 +11,4 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+process.env.MONGODB_URI
