@@ -10,9 +10,6 @@
 ## Key Features
 
 - **Real-time updates**: Utilizes WebSocket technology via Socket.IO to provide immediate updates across user interfaces.
-- **List styling**: Custom list designs that enhance the visual layout and user interaction.
-- **Responsive design**: Fully responsive web design that ensures a seamless experience on both desktop and mobile devices.
-- **Conversation management**: Advanced features to manage user conversations efficiently.
 
 ## Schema for Message
 
