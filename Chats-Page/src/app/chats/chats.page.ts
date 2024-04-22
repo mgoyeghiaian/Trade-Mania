@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MatchService } from '../services/match.services';  // Ensure this path matches where your MatchService is located
-import { ChatService, ChatMessage } from '../services/chat.services';  // Ensure this path matches where your ChatService is located
+import { MatchService } from '../services/match.services';
+import { ChatService, ChatMessage } from '../services/chat.services';
 
 @Component({
   selector: 'app-chats-page',
@@ -13,7 +13,7 @@ export class ChatsPage implements OnInit, OnDestroy {
   messages: ChatMessage[] = [];
   incomingMessagesCount = 0;
   matchesCount = 0;
-  readonly placeholdersCount = 5;
+  readonly placeholdersCount = 6;
   activeTab: string = 'chats';
   private subscriptions: Subscription = new Subscription();
 
@@ -35,22 +35,32 @@ export class ChatsPage implements OnInit, OnDestroy {
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
-    this.cdr.detectChanges(); // Manually trigger change detection to ensure UI updates
+    this.cdr.detectChanges();
   }
 
   private loadMatches(): void {
     this.subscriptions.add(
       this.matchService.getMatches().subscribe(
         data => {
-          this.matches = this.fillPlaceholders(data);
+          this.matches = this.fillPlaceholders(data.reverse());
           this.updateMatchCount();
+          this.cdr.detectChanges();
         },
         error => {
           console.error('Failed to fetch matches', error);
           this.matches = this.createPlaceholders();
           this.updateMatchCount();
+          this.cdr.detectChanges();  // Ensure UI updates even on error
         }
       )
+    );
+
+    this.subscriptions.add(
+      this.matchService.matches.subscribe(updatedMatches => {
+        this.matches = this.fillPlaceholders(updatedMatches);
+        this.updateMatchCount();
+        this.cdr.detectChanges();
+      })
     );
   }
 
@@ -59,36 +69,39 @@ export class ChatsPage implements OnInit, OnDestroy {
       this.chatService.getMessages().subscribe(
         data => {
           this.messages = data;
-          this.incomingMessagesCount = data.filter(m => m.isIncoming).length;
+          this.incomingMessagesCount = data.reverse().filter(m => m.isIncoming).length;
           this.cdr.detectChanges();
         },
-        error => console.error('Failed to fetch messages', error)
+        error => {
+          console.error('Failed to fetch messages', error);
+          this.cdr.detectChanges();
+        }
       )
     );
   }
 
   private subscribeToRealTimeUpdates(): void {
-    // Subscribing to real-time message updates
     this.subscriptions.add(
       this.chatService.messages$.subscribe(newMessages => {
         this.messages = newMessages;
         this.incomingMessagesCount = newMessages.filter(m => m.isIncoming).length;
-        this.cdr.detectChanges(); // Ensure the view is updated
+        this.cdr.detectChanges();  // Ensure the view is updated
       })
     );
   }
 
   private fillPlaceholders(data: any[]): any[] {
-    const filledData = data.length ? data : [];
+    let filledData = data.slice(0, this.placeholdersCount);
     while (filledData.length < this.placeholdersCount) {
       filledData.push({ name: '', profilePicture: 'assets/NoAvatar.jpeg', isOnline: false });
     }
+
     return filledData;
   }
 
   private createPlaceholders(): any[] {
     return new Array(this.placeholdersCount).fill({}).map(() => ({
-      name: 'Unknown',
+      name: ' ',
       profilePicture: 'assets/NoAvatar.jpeg',
       isOnline: false
     }));

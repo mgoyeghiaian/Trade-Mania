@@ -35,7 +35,6 @@ exports.createMessage = async (req, res) => {
 exports.updateMessage = async (req, res) => {
   try {
     const io = getIo();
-
     const updatedMessage = await Message.findByIdAndUpdate(
       req.params.id,
       { $set: { ...req.body, time: new Date() } },
