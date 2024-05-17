@@ -1,32 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-const http = require('http');
-const connectDB = require('./config/db');
-const socketHandler = require('./socket');
-require('dotenv').config();
-
+require("dotenv").config();
+const mongoose = require("mongoose");
+const connection = require("./config/db");
+const express = require("express");
 const app = express();
-const port = process.env.PORT || 8080;
+const cors = require('cors');
+const Profile = require('./routes/Profile')
+mongoose.set("strictQuery", true);
 
-connectDB();
+app.use(cors());
 
-
-app.use(cors({
-    origin: 'http://localhost:8100',
-    methods: ['GET', 'POST'],
-    credentials: true
-}));
-
+connection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/profile', Profile);
 
-app.get('/', (req, res) => {
-    res.send('Server is running');
-});
+const port = process.env.PORT || 8080;
 
-const server = http.createServer(app);
-socketHandler(server);
+const server = require('http').createServer(app);
+
+const { setupSocket } = require('./middleware/socket');
+
+const io = setupSocket(server);
 
 server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Listening on port ${port}...`);
 });
+
+module.exports = io;
